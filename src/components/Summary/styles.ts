@@ -26,7 +26,6 @@ export const SummaryCard = styled.div<SummaryCardProps>`
         display: flex;
         align-items: center;
         justify-content: space-between;
-        color: ${props => props.variant == 'green' ? props.theme["gray-900"] : props.theme["gray-300"]};
     }
 
     strong {
@@ -36,8 +35,8 @@ export const SummaryCard = styled.div<SummaryCardProps>`
     }
 
     ${props => props.variant === 'green' && css`
-        background: ${props => props.theme["blue-green"]};
-        color: ${props => props.theme["gray-900"]}
+        background: ${props => props.theme["green-300"]};
+        color: ${props => props.theme["white"]}
 
     `}
 `;
