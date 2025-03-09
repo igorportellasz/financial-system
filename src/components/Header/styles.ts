@@ -1,0 +1,40 @@
+import styled from "styled-components";
+
+export const HeaderContainer = styled.header`
+    background: ${props => props.theme["gray-900"]};
+    padding: 2.5rem 0 7.5rem;
+    box-shadow: 0px 10px 20px rgba(0,0,0,1);
+`;
+
+export const HeaderContent = styled.header`
+    width: 100;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    img {
+        width: 5rem;
+        height: 5rem;
+    }
+`;
+
+export const NewTransactionButton = styled.button`
+    height: 50px;
+    border: 0;
+    background: ${props => props.theme["blue-green"]};
+    color: ${props => props.theme["gray-900"]};
+    font-weight: bold;
+    padding: 0 1.25rem;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &:hover {
+        background: ${props => props.theme["green-300"]};
+        transition: background-color 0.2s;
+    }
+
+`
