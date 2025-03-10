@@ -7,7 +7,7 @@ Este é um sistema financeiro desenvolvido com **React** e **TypeScript**, utili
 - Cadastro de transações financeiras
 - Listagem e filtragem de transações
 - Cálculo automático de balanço financeiro
-- Interface responsiva e intuitiva
+- Interface intuitiva
 - Backend local para testes com **JSON Server**
 
 ## 🛠️ Tecnologias Utilizadas
