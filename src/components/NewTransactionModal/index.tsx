@@ -7,52 +7,46 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { TransactionsContext } from "../../contexts/TransactionsContext";
 import { useContextSelector } from "use-context-selector";
 
+// Esquema de validação do formulário usando Zod
 const newTransactionFormSchema = zod.object({
     description: zod.string(),
     price: zod.number(),
     category: zod.string(),
     type: zod.enum(['income', 'outcome']),
-})
+});
 
-type newTransactionFormInputs = zod.infer<typeof newTransactionFormSchema>;
+// Tipagem gerada a partir do esquema Zod
+type NewTransactionFormInputs = zod.infer<typeof newTransactionFormSchema>;
 
+// Modal para criação de uma nova transação
 export function NewTransactionModal () {
+    // Obtém a função de criação de transação do contexto
+    const createTransaction = useContextSelector(TransactionsContext, (context) => context.createTransaction);
 
-    const createTransaction = useContextSelector(TransactionsContext, (context) => {
-        return context.createTransaction;
-    })
-
+    // Configuração do formulário com validação Zod
     const { 
         control,
         register, 
         handleSubmit,
-        formState: {isSubmitting},
+        formState: { isSubmitting },
         reset,
-    } = useForm<newTransactionFormInputs>({
+    } = useForm<NewTransactionFormInputs>({
         resolver: zodResolver(newTransactionFormSchema),
-        defaultValues: {
-            type: 'income',
-        },
-    })
+        defaultValues: { type: 'income' },
+    });
 
-    async function handleCreateNewTransaction (data: newTransactionFormInputs) {
+    // Processa a criação da transação e reseta o formulário
+    async function handleCreateNewTransaction (data: NewTransactionFormInputs) {
         const { description, category, type, price } = data;
-        await createTransaction({
-            description,
-            price,
-            category,
-            type,
-        })
-
+        await createTransaction({ description, price, category, type });
         reset();
-
     }
 
     return (
         <Dialog.Portal>
             <Overlay />
             <Content>
-                <Title >Nova Transação</Title>
+                <Title>Nova Transação</Title>
 
                 <CloseButton> 
                     <X size={24}/> 
@@ -63,51 +57,45 @@ export function NewTransactionModal () {
                         type="text" 
                         placeholder="Descrição" 
                         required
-                        {...register('description')}/>
+                        {...register('description')}
+                    />
                     <input 
                         type="number" 
                         placeholder="Preço" 
                         required
-                        {...register('price', {valueAsNumber: true})}/>
+                        {...register('price', { valueAsNumber: true })}
+                    />
                     <input 
                         type="text" 
                         placeholder="Categoria" 
                         required
-                        {...register('category')}/>
+                        {...register('category')}
+                    />
                 
+                    // Botões de seleção para tipo de transação
                     <Controller 
                         control={control}
                         name="type"
-                        render={( { field }) => {
-                            return (
-                                <TransactionType 
-                                    onValueChange={field.onChange} 
-                                    value={field.value}
-                                >
-                                    <TransactionTypeButton value="income" variant="income">
-                                        <ArrowCircleUp size={24} />
-                                        Entrada
-                                    </TransactionTypeButton>
-            
-                                    <TransactionTypeButton value="outcome" variant="outcome">
-                                        <ArrowCircleDown size={24} />
-                                        Saida
-                                    </TransactionTypeButton>
-                                </TransactionType>
-                            )
-                        }}
+                        render={({ field }) => (
+                            <TransactionType onValueChange={field.onChange} value={field.value}>
+                                <TransactionTypeButton value="income" variant="income">
+                                    <ArrowCircleUp size={24} />
+                                    Entrada
+                                </TransactionTypeButton>
+                                <TransactionTypeButton value="outcome" variant="outcome">
+                                    <ArrowCircleDown size={24} />
+                                    Saída
+                                </TransactionTypeButton>
+                            </TransactionType>
+                        )}
                     />
 
                     <button type="submit" disabled={isSubmitting}>
                         Cadastrar
                         <CheckCircle size={24} />
                     </button>
-                
                 </form>
-
-                
             </Content>
-
         </Dialog.Portal>
-    )
+    );
 }
