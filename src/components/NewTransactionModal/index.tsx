@@ -72,7 +72,6 @@ export function NewTransactionModal () {
                         {...register('category')}
                     />
                 
-                    // Botões de seleção para tipo de transação
                     <Controller 
                         control={control}
                         name="type"
